@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>ঈদ মুবারক ২০২৬</title>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Noto+Serif+Bengali:wght@600;700;800&family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-dark: #0f111a;
+    --bg-gradient: radial-gradient(circle at top right, #1a1c29, #0a0b10);
+    --primary: #f9d423;
+    --primary-glow: rgba(249, 212, 35, 0.4);
+    --secondary: #ff4e50;
+    --text-main: #f0f0f0;
+    --text-muted: #a0a5b5;
+    --glass-bg: rgba(255, 255, 255, 0.03);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --spring-easing: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: 'Hind Siliguri', sans-serif;
+    background: var(--bg-dark);
+    color: var(--text-main);
+  }
+
+  /* ── BACKGROUND CANVAS ── */
+  #canvas-container {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    background: var(--bg-gradient);
+    pointer-events: none;
+  }
+
+  /* ── SIDE NAVIGATION DOTS ── */
+  .side-nav {
+    position: fixed;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 50;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .nav-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    cursor: pointer;
+    transition: all 0.3s var(--spring-easing);
+    border: 2px solid transparent;
+  }
+  .nav-dot.active {
+    background: var(--primary);
+    transform: scale(1.5);
+    box-shadow: 0 0 10px var(--primary-glow);
+  }
+
+  /* ── BACKGROUND ORBS ── */
+  .glow-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    z-index: -1;
+    opacity: 0.25;
+    pointer-events: none;
+  }
+  .glow-orb-primary { background: var(--primary); width: 250px; height: 250px; top: -50px; left: -100px; }
+  .glow-orb-secondary { background: var(--secondary); width: 200px; height: 200px; bottom: -50px; right: -80px; }
+
+  /* ── SCROLL CONTAINER ── */
+  .scroll-container {
+    position: absolute;
+    inset: 0;
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .scroll-container::-webkit-scrollbar { display: none; }
+  .scroll-container { -ms-overflow-style: none; scrollbar-width: none; }
+
+  /* ── SECTION BASE ── */
+  section {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    min-height: 100dvh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 2rem 1.5rem;
+  }
+
+  /* ── MODERN GLASSMORPHISM ── */
+  .glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    padding: 2.5rem 2rem;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+    transition: transform 0.4s var(--spring-easing), box-shadow 0.4s ease;
+    position: relative;
+    overflow: hidden;
+    z-index: 2;
+  }
+
+  /* ── SCROLL HINT (SWIPE UP) ── */
+  .scroll-indicator {
+    position: absolute;
+    bottom: 2.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    opacity: 0.9;
+    pointer-events: none;
+    z-index: 5;
+  }
+  .scroll-indicator p {
+    font-size: 0.85rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--primary);
+    font-weight: 600;
+    text-shadow: 0 0 12px rgba(249, 212, 35, 0.5);
+    animation: pulseText 2s infinite ease-in-out;
+    margin-bottom: 5px;
+  }
+  .chevron-container { display: flex; flex-direction: column; align-items: center; margin-top: -4px; }
+  .chevron {
+    width: 14px; height: 14px;
+    border-right: 3px solid var(--primary);
+    border-bottom: 3px solid var(--primary);
+    transform: rotate(45deg);
+    animation: swipeDown 2s infinite;
+    margin-bottom: -6px;
+  }
+  .chevron:nth-child(1) { animation-delay: 0s; }
+  .chevron:nth-child(2) { animation-delay: 0.2s; }
+  .chevron:nth-child(3) { animation-delay: 0.4s; }
+
+  @keyframes swipeDown {
+    0% { opacity: 0; transform: rotate(45deg) translate(-5px, -5px); }
+    50% { opacity: 1; }
+    100% { opacity: 0; transform: rotate(45deg) translate(10px, 10px); }
+  }
+  @keyframes pulseText { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
+
+  /* ══════════════════════════════
+     SECTION 1 — INTRO & CITYSCAPE
+  ══════════════════════════════ */
+  .aesthetic-moon {
+    width: 100px; height: 100px;
+    border-radius: 50%;
+    background: transparent;
+    box-shadow: inset -15px -15px 0 0 var(--primary);
+    margin-bottom: 2rem;
+    position: relative;
+    animation: moonHover 6s ease-in-out infinite;
+    filter: drop-shadow(0 0 20px var(--primary-glow));
+    z-index: 2;
+  }
+  .aesthetic-moon::after {
+    content: ''; position: absolute; top: 10%; right: 10%;
+    width: 25px; height: 25px;
+    background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: twinkle 3s infinite;
+  }
+  @keyframes moonHover { 0%, 100% { transform: translateY(0px) rotate(-10deg); } 50% { transform: translateY(-15px) rotate(5deg); } }
+  @keyframes twinkle { 0%,100%{opacity:0.4} 50%{opacity:1} }
+
+  .cityscape-bg {
+    position: absolute;
+    bottom: 0; left: 0; width: 100%;
+    height: 35vh;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320' preserveAspectRatio='none'%3E%3Cpath fill='%230a0b10' d='M0,320L1440,320L1440,150C1380,160 1350,110 1300,110C1250,110 1230,170 1180,180C1100,190 1080,80 1000,80C950,80 930,150 880,160C800,180 780,90 700,90C650,90 630,130 580,140C500,160 480,50 400,50C350,50 330,140 280,150C200,170 180,100 100,100C50,100 20,150 0,160Z'/%3E%3Cpath fill='%23131622' d='M100,320L100,200L120,200L120,180L130,170L140,180L140,200L160,200L160,320ZM250,320L250,150A40,40 0 0,1 330,150L330,320ZM500,320L500,220L520,220L520,190L530,180L540,190L540,220L560,220L560,320ZM750,320L750,120A50,50 0 0,1 850,120L850,320ZM1050,320L1050,210L1070,210L1070,180L1080,170L1090,180L1090,210L1110,210L1110,320ZM1250,320L1250,170A40,40 0 0,1 1330,170L1330,320Z'/%3E%3C/svg%3E");
+    background-size: cover;
+    background-position: bottom;
+    opacity: 0.85;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .title-wrapper { position: relative; display: inline-block; margin-bottom: 1rem; z-index: 2; }
+  .main-title {
+    font-size: clamp(2.5rem, 8vw, 4.5rem);
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 0 4px 20px rgba(255,255,255,0.2);
+    position: relative;
+  }
+  .skew-underline::after {
+    content: ''; position: absolute; bottom: 5px; left: -5%;
+    width: 110%; height: 18px;
+    background: linear-gradient(90deg, var(--secondary), var(--primary));
+    transform: skewX(-20deg) rotate(-2deg);
+    z-index: -1; border-radius: 4px; opacity: 0.8;
+    transform-origin: left;
+    animation: drawLine 1s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    animation-delay: 0.5s; width: 0; 
+  }
+  @keyframes drawLine { to { width: 110%; } }
+
+  .sub-title {
+    font-size: clamp(1.1rem, 4vw, 1.5rem);
+    color: var(--text-muted); font-weight: 300; text-align: center; z-index: 2; position: relative;
+  }
+  .year-badge {
+    margin-top: 1.5rem; background: rgba(249, 212, 35, 0.1); color: var(--primary);
+    padding: 8px 18px; border-radius: 20px; font-family: 'Poppins', sans-serif;
+    font-weight: 600; font-size: 0.9rem; letter-spacing: 2px;
+    border: 1px solid rgba(249, 212, 35, 0.2); display: flex; align-items: center; gap: 8px;
+    z-index: 2; position: relative;
+  }
+
+  /* ══════════════════════════════
+     SECTION TAGS WITH ICONS
+  ══════════════════════════════ */
+  .section-tag {
+    font-family: 'Poppins', sans-serif; font-size: 0.75rem; letter-spacing: 3px;
+    text-transform: uppercase; color: var(--primary); margin-bottom: 2rem;
+    background: rgba(249, 212, 35, 0.1); padding: 6px 14px; border-radius: 20px;
+    border: 1px solid rgba(249, 212, 35, 0.15); display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  }
+  .section-tag svg { width: 14px; height: 14px; }
+
+  /* ══════════════════════════════
+     SECTION 2 & 3 (DUA & QUOTES)
+  ══════════════════════════════ */
+  .dua-container { max-width: 500px; width: 100%; text-align: center; }
+  .arabic-text { font-size: clamp(1.8rem, 6vw, 2.5rem); color: var(--primary); line-height: 1.6; margin-bottom: 1.5rem; font-weight: 600; }
+  .bangla-translation { font-size: 1.1rem; color: var(--text-main); line-height: 1.8; }
+  .highlight-dua { color: var(--secondary); font-weight: 600; margin-top: 1rem; display: inline-block; padding-top: 1rem; border-top: 1px dashed rgba(255,255,255,0.1); }
+
+  .quote-box { max-width: 600px; width: 100%; text-align: center; min-height: 240px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+  .quote-icon { width: 45px; height: 45px; color: var(--primary); opacity: 0.25; position: absolute; top: 25px; left: 25px; }
+  .quote-text { font-size: clamp(1.2rem, 5vw, 1.6rem); font-weight: 500; line-height: 1.6; transition: opacity 0.4s ease, transform 0.4s var(--spring-easing); }
+  .quote-text.hidden { opacity: 0; transform: translateY(20px) scale(0.95); }
+  .controls { display: flex; gap: 15px; margin-top: 2.5rem; justify-content: center; }
+  .btn-icon { width: 45px; height: 45px; border-radius: 50%; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); color: var(--text-main); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s ease; }
+  .btn-icon:hover { background: var(--primary); color: #000; transform: scale(1.1); }
+
+  /* ══════════════════════════════
+     SECTION 4 — INTERACTIVE MESSAGE
+  ══════════════════════════════ */
+  .message-wrapper { perspective: 1000px; width: 100%; max-width: 500px; display: flex; flex-direction: column; align-items: center; }
+  
+  .tap-guide {
+    display: flex; flex-direction: column; align-items: center; gap: 5px;
+    margin-bottom: 10px; color: var(--primary); font-family: 'Poppins', sans-serif;
+    font-size: 0.85rem; letter-spacing: 1px; animation: bounceTap 1.5s infinite;
+    transition: opacity 0.3s;
+  }
+  .tap-guide span { font-size: 1.5rem; }
+  @keyframes bounceTap { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(8px); } }
+
+  .gift-box {
+    width: 100px; height: 100px;
+    background: linear-gradient(135deg, #ff4e50, #f9d423);
+    border-radius: 20px; margin: 0 auto 1rem; cursor: pointer; position: relative;
+    display: flex; justify-content: center; align-items: center;
+    box-shadow: 0 10px 30px rgba(255, 78, 80, 0.3); transition: transform 0.3s var(--spring-easing);
+    z-index: 10;
+  }
+  .gift-box:hover { transform: scale(1.05) rotate(2deg); }
+  .gift-box::before { content: '🎁'; font-size: 3rem; }
+  .gift-box.opened { transform: scale(0); opacity: 0; pointer-events: none; position: absolute; }
+
+  .secret-message {
+    opacity: 0; transform: rotateX(20deg) translateY(30px); transform-origin: top;
+    transition: all 0.6s var(--spring-easing); display: none; width: 100%;
+  }
+  .secret-message.visible { display: block; }
+  .secret-message.animate-in { opacity: 1; transform: rotateX(0) translateY(0); }
+
+  /* New Readability and Salami Animation CSS */
+  .focus-msg {
+    line-height: 1.8; color: var(--text-main); font-size: 1.15rem;
+  }
+  .bold-footer {
+    margin-top: 20px; font-family: 'Noto Serif Bengali', serif; font-size: 1.35rem;
+    font-weight: 700; color: #fff; line-height: 1.6;
+    padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.1);
+  }
+  .salami-fire {
+    color: #ffd700;
+    display: inline-block;
+    animation: fireGlow 1.2s infinite alternate;
+  }
+  @keyframes fireGlow {
+    0% { text-shadow: 0 0 5px #ff4e50, 0 0 10px #ff4e50, 0 0 15px #ff0000; transform: scale(1); }
+    100% { text-shadow: 0 0 10px #ff4e50, 0 0 20px #ff0000, 0 0 30px #ff8c00; transform: scale(1.05); }
+  }
+
+  /* ══════════════════════════════
+     SECTION 5 — VOCAROO AUDIO
+  ══════════════════════════════ */
+  .audio-card { display: flex; flex-direction: column; align-items: center; gap: 1.5rem; max-width: 400px; width: 100%; position: relative; }
+  .audio-card::before { content: ''; position: absolute; top: 50%; left: 50%; width: 150px; height: 150px; background: var(--primary); filter: blur(80px); transform: translate(-50%, -50%); opacity: 0.2; z-index: -1; border-radius: 50%; animation: pulseGlow 4s infinite alternate; }
+  @keyframes pulseGlow { from { opacity: 0.1; transform: translate(-50%, -50%) scale(0.8); } to { opacity: 0.3; transform: translate(-50%, -50%) scale(1.2); } }
+  .audio-title { font-size: 1.3rem; font-weight: 600; color: var(--primary); text-align: center; }
+  .vocaroo-wrapper { background: rgba(0,0,0,0.2); border-radius: 12px; padding: 10px; border: 1px solid rgba(255,255,255,0.1); box-shadow: inset 0 2px 10px rgba(0,0,0,0.2); text-align: center; width: 100%; }
+  .vocaroo-wrapper iframe { border-radius: 8px; width: 100%; max-width: 300px; }
+  .vocaroo-wrapper a { display: inline-block; margin-top: 8px; font-size: 0.8rem; color: var(--text-muted); text-decoration: none; font-family: 'Poppins', sans-serif; transition: color 0.2s; }
+  .vocaroo-wrapper a:hover { color: var(--primary); }
+
+  /* ══════════════════════════════
+     SECTION 6 — SHARE & FOOTER
+  ══════════════════════════════ */
+  .action-buttons { display: flex; flex-direction: column; gap: 1rem; width: 100%; max-width: 300px; margin-top: 1rem; }
+  .btn { padding: 1rem; border-radius: 16px; border: none; font-family: 'Hind Siliguri', sans-serif; font-size: 1.1rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; transition: all 0.3s var(--spring-easing); }
+  .btn-primary { background: linear-gradient(135deg, var(--primary), #e6b800); color: #000; box-shadow: 0 4px 15px rgba(249, 212, 35, 0.3); }
+  .btn-primary:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 8px 25px rgba(249, 212, 35, 0.4); }
+  .btn-primary:active { transform: scale(0.95); }
+  .btn-outline { background: rgba(255,255,255,0.05); color: #fff; border: 1px solid var(--glass-border); }
+  .btn-outline:hover { background: rgba(255,255,255,0.1); transform: translateY(-3px); }
+  .dev-credit { margin-top: 3rem; font-family: 'Poppins', sans-serif; font-size: 0.8rem; color: var(--text-muted); opacity: 0.6; text-align: center; }
+
+  /* ── REVEAL ANIMATIONS & TOAST ── */
+  .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s var(--spring-easing); }
+  .reveal.active { opacity: 1; transform: translateY(0); }
+  .toast { position: fixed; top: 20px; left: 50%; transform: translate(-50%, -100px); background: #4caf50; color: white; padding: 10px 20px; border-radius: 30px; font-weight: 600; box-shadow: 0 4px 15px rgba(0,0,0,0.2); transition: transform 0.4s var(--spring-easing); z-index: 100; font-family: 'Poppins', sans-serif; }
+  .toast.show { transform: translate(-50%, 0); }
+</style>
+</head>
+<body>
+
+<!-- Background Canvas -->
+<canvas id="canvas-container"></canvas>
+
+<!-- Side Navigation Dots -->
+<div class="side-nav" id="sideNav">
+  <div class="nav-dot active" onclick="scrollToSection(0)"></div>
+  <div class="nav-dot" onclick="scrollToSection(1)"></div>
+  <div class="nav-dot" onclick="scrollToSection(2)"></div>
+  <div class="nav-dot" onclick="scrollToSection(3)"></div>
+  <div class="nav-dot" onclick="scrollToSection(4)"></div>
+  <div class="nav-dot" onclick="scrollToSection(5)"></div>
+</div>
+
+<div class="toast" id="toast">Link Copied! ✨</div>
+
+<div class="scroll-container" id="scroller">
+  
+  <!-- S1: INTRO -->
+  <section id="s1" class="section-el">
+    <div class="aesthetic-moon reveal"></div>
+    <div class="title-wrapper reveal" style="transition-delay: 0.1s;">
+      <h1 class="main-title skew-underline">ঈদ মুবারক</h1>
+    </div>
+    <p class="sub-title reveal" style="transition-delay: 0.2s;">আনন্দের এই শুভক্ষণে, আপনাকে জানাই<br><span style="color:var(--primary); font-weight:500;">আন্তরিক শুভেচ্ছা ও ভালোবাসা</span></p>
+    <div class="year-badge reveal" style="transition-delay: 0.3s;">
+      <svg style="width:16px; height:16px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>
+      EID UL FITR 2026
+    </div>
+    
+    <div class="cityscape-bg"></div>
+
+    <div class="scroll-indicator">
+      <p>Swipe Up</p>
+      <div class="chevron-container"><div class="chevron"></div><div class="chevron"></div><div class="chevron"></div></div>
+    </div>
+  </section>
+
+  <!-- S2: DUA -->
+  <section id="s2" class="section-el">
+    <div class="glow-orb glow-orb-primary"></div>
+    <div class="glow-orb glow-orb-secondary"></div>
+    <div class="glass-card dua-container reveal">
+      <div class="section-tag">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477-4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+        ঈদের দোয়া
+      </div>
+      <h2 class="arabic-text">تَقَبَّلَ اللهُ مِنَّا وَمِنْكُم</h2>
+      <p class="bangla-translation">আল্লাহ আমাদের এবং আপনাদের সকলের নেক আমল, রোজা ও ইবাদত কবুল করুন।</p>
+      <p class="bangla-translation highlight-dua">— তাক্বাব্বালাল্লাহু মিন্না ওয়া মিনকুম —</p>
+    </div>
+  </section>
+
+  <!-- S3: QUOTES (SLIDER) -->
+  <section id="s3" class="section-el">
+    <div class="glow-orb glow-orb-secondary" style="top: 10%; right: 10%; bottom: auto; left: auto;"></div>
+    <div class="glass-card quote-box reveal">
+      <div class="section-tag">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
+        ঈদের বার্তা
+      </div>
+      <svg class="quote-icon" fill="currentColor" viewBox="0 0 24 24"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/></svg>
+      <p class="quote-text" id="quoteText">ঈদ মানে শুধু নতুন পোশাক নয়, ঈদ মানে মনের কলুষতা দূর করে নতুন হওয়া।</p>
+      <div class="controls">
+        <button class="btn-icon" onclick="prevQuote()"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"></path></svg></button>
+        <button class="btn-icon" onclick="nextQuote()"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path></svg></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- S4: INTERACTIVE MESSAGE -->
+  <section id="s4" class="section-el">
+    <div class="glow-orb glow-orb-primary" style="top: 50%; left: 50%; transform: translate(-50%, -50%); filter: blur(100px);"></div>
+    <div class="message-wrapper reveal">
+      <div class="section-tag" style="margin: 0 auto 1.5rem;">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"></path></svg>
+        সারপ্রাইজ
+      </div>
+      
+      <!-- Tap Guide Animated -->
+      <div class="tap-guide" id="tapGuide">
+        <span>👇</span> ট্যাপ করে খুলুন
+      </div>
+      
+      <div class="gift-box" id="giftBox" onclick="openGift()" title="Tap to Open!"></div>
+      
+      <div class="glass-card secret-message" id="secretMsg">
+        <p class="focus-msg">
+          ঈদের এই পবিত্র দিনে তোমার এবং তোমার পরিবারের জন্য রইল এক বুক ভালোবাসা আর দোয়া। দূরত্ব যতই হোক, হৃদয়ের টানে আমরা সবসময় কাছাকাছি। আজকের দিনটি তোমার জীবনে বয়ে আনুক অনাবিল আনন্দ!
+        </p>
+        <div class="bold-footer">
+          সবশেষে, "<span class="salami-fire">সালামি</span> কই? আমার Bkash নাম্বারে,তারাতারি পাঠাও 😒"
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- S5: AUDIO (VOCAROO) -->
+  <section id="s5" class="section-el">
+    <div class="glow-orb glow-orb-secondary" style="top: -20px; right: -20px;"></div>
+    <div class="glass-card audio-card reveal">
+      <div class="section-tag">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"></path></svg>
+        কণ্ঠস্বর
+      </div>
+      <h3 class="audio-title">আমার কণ্ঠে ঈদের শুভেচ্ছা 🎙️</h3>
+      <p style="font-size: 0.9rem; color: var(--text-muted); text-align: center;">প্লে বাটনে ক্লিক করে শুনে নাও</p>
+      
+      <div class="vocaroo-wrapper">
+        <iframe width="300" height="60" src="https://vocaroo.com/embed/1mxysWIhJIIW?autoplay=0" frameborder="0" allow="autoplay"></iframe>
+        <br><a href="https://voca.ro/1mxysWIhJIIW" title="Vocaroo Voice Recorder" target="_blank">View on Vocaroo &gt;&gt;</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- S6: SHARE -->
+  <section id="s6" class="section-el">
+    <div class="glow-orb glow-orb-primary" style="bottom: 0; left: 10%;"></div>
+    <div class="glass-card reveal" style="text-align: center; max-width: 400px; width: 100%;">
+      <div class="section-tag">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"></path></svg>
+        শেয়ার করুন
+      </div>
+      <h2 style="font-size: 1.8rem; margin-bottom: 10px;">আনন্দ ছড়িয়ে দিন</h2>
+      <p style="color: var(--text-muted); margin-bottom: 25px;">প্রিয়জনদের পাঠিয়ে ঈদের আনন্দ দ্বিগুণ করুন।</p>
+      
+      <div class="action-buttons" style="margin: 0 auto;">
+        <button class="btn btn-primary" onclick="copyLink()">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
+          লিঙ্ক কপি করুন
+        </button>
+        <button class="btn btn-outline" onclick="shareWhatsApp()">
+          <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 00-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+          WhatsApp-এ পাঠান
+        </button>
+      </div>
+      <p class="dev-credit">Crafted with ❤️ by Sifat</p>
+    </div>
+  </section>
+</div>
+
+<script>
+  /* ══════════════════════════════════════════════
+     PERFORMANCE OPTIMIZED CANVAS SYSTEM
+  ════════════════════════════════════════════════*/
+  const canvas = document.getElementById('canvas-container');
+  const ctx = canvas.getContext('2d');
+  
+  let width, height;
+  let stars = [];
+  let fireworks = [];
+  let particles = [];
+  let confettis = [];
+  
+  const fwColors = ['#f9d423', '#ff4e50', '#00f2fe', '#4facfe', '#f093fb', '#f5576c'];
+  const confettiColors = ['#ff0a54', '#ff477e', '#ff7096', '#ff85a1', '#fbb1bd', '#f9ea8f', '#00bbf9', '#00f5d4'];
+
+  function resizeCanvas() {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+  }
+  window.addEventListener('resize', resizeCanvas);
+  resizeCanvas();
+
+  // --- Background Stars ---
+  class Star {
+    constructor() {
+      this.x = Math.random() * width; this.y = Math.random() * height;
+      this.size = Math.random() * 1.5; this.alpha = Math.random();
+      this.speed = Math.random() * 0.015;
+    }
+    update() { this.alpha += this.speed; if (this.alpha > 1 || this.alpha < 0) this.speed *= -1; }
+    draw() {
+      ctx.globalAlpha = Math.abs(this.alpha);
+      ctx.fillStyle = '#ffffff';
+      ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill();
+    }
+  }
+
+  // --- Confetti / Party Popper ---
+  class Confetti {
+    constructor(x, y) {
+      this.x = x; this.y = y;
+      this.color = confettiColors[Math.floor(Math.random() * confettiColors.length)];
+      this.size = Math.random() * 8 + 4;
+      const angle = Math.random() * Math.PI * 2;
+      const velocity = Math.random() * 15 + 5;
+      this.vx = Math.cos(angle) * velocity;
+      this.vy = Math.sin(angle) * velocity;
+      this.rot = Math.random() * 360;
+      this.rotSpeed = Math.random() * 10 - 5;
+      this.gravity = 0.3;
+      this.drag = 0.95;
+      this.alpha = 1;
+    }
+    update() {
+      this.vx *= this.drag; this.vy *= this.drag; this.vy += this.gravity;
+      this.x += this.vx; this.y += this.vy;
+      this.rot += this.rotSpeed;
+      this.alpha -= 0.005;
+      return this.alpha > 0 && this.y < height;
+    }
+    draw() {
+      ctx.save();
+      ctx.globalAlpha = this.alpha;
+      ctx.translate(this.x, this.y); ctx.rotate((this.rot * Math.PI) / 180);
+      ctx.fillStyle = this.color;
+      ctx.fillRect(-this.size/2, -this.size/2, this.size, this.size);
+      ctx.restore();
+    }
+  }
+
+  // --- Fireworks System ---
+  class Firework {
+    constructor() {
+      this.x = Math.random() * width; this.y = height;
+      this.targetY = Math.random() * (height / 2);
+      this.speed = Math.random() * 3 + 4;
+      this.color = fwColors[Math.floor(Math.random() * fwColors.length)];
+      this.radius = 2;
+    }
+    update() { this.y -= this.speed; if (this.y <= this.targetY) { this.explode(); return false; } return true; }
+    draw() { ctx.globalAlpha = 1; ctx.fillStyle = this.color; ctx.beginPath(); ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2); ctx.fill(); }
+    explode() { for (let i = 0; i < 40; i++) particles.push(new Particle(this.x, this.y, this.color)); }
+  }
+
+  class Particle {
+    constructor(x, y, color) {
+      this.x = x; this.y = y; this.color = color;
+      const angle = Math.random() * Math.PI * 2; const velocity = Math.random() * 4 + 1;
+      this.vx = Math.cos(angle) * velocity; this.vy = Math.sin(angle) * velocity;
+      this.alpha = 1; this.decay = Math.random() * 0.02 + 0.01;
+      this.size = Math.random() * 2 + 1;
+    }
+    update() { this.vx *= 0.98; this.vy *= 0.98; this.vy += 0.05; this.x += this.vx; this.y += this.vy; this.alpha -= this.decay; return this.alpha > 0; }
+    draw() { ctx.globalAlpha = this.alpha; ctx.fillStyle = this.color; ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill(); }
+  }
+
+  for (let i = 0; i < 100; i++) stars.push(new Star()); // Reduced to 100 for perf headroom
+
+  function animate() {
+    ctx.fillStyle = 'rgba(15, 17, 26, 0.2)'; 
+    ctx.fillRect(0, 0, width, height);
+    stars.forEach(star => { star.update(); star.draw(); });
+    if (Math.random() < 0.02) fireworks.push(new Firework());
+
+    fireworks = fireworks.filter(f => { f.draw(); return f.update(); });
+    particles = particles.filter(p => { p.draw(); return p.update(); });
+    confettis = confettis.filter(c => { c.draw(); return c.update(); });
+
+    requestAnimationFrame(animate);
+  }
+  animate();
+
+  /* ══════════════════════════════════════════════
+     UI LOGIC & INTERACTIVITY
+  ════════════════════════════════════════════════*/
+
+  // Scroll Reveal & Active Dot Observer
+  const sections = document.querySelectorAll('.section-el');
+  const navDots = document.querySelectorAll('.nav-dot');
+  
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.querySelectorAll('.reveal').forEach(el => el.classList.add('active'));
+        // Update Side Dots
+        let index = Array.from(sections).indexOf(entry.target);
+        navDots.forEach(dot => dot.classList.remove('active'));
+        if(navDots[index]) navDots[index].classList.add('active');
+      }
+    });
+  }, { threshold: 0.4 });
+
+  sections.forEach(sec => observer.observe(sec));
+
+  window.scrollToSection = (index) => {
+    sections[index].scrollIntoView({ behavior: 'smooth' });
+  };
+
+  // Quotes Slider
+  const quotes = [
+    "ঈদ মানে শুধু নতুন পোশাক নয়, ঈদ মানে মনের কলুষতা দূর করে নতুন হওয়া।",
+    "দীর্ঘ এক মাস সিয়াম সাধনার পর, ঈদ আসে রহমত ও বরকত নিয়ে।",
+    "আজকের এই দিনে সব ভেদাভেদ ভুলে, সবার সাথে আনন্দ ভাগ করে নিই।",
+    "আল্লাহর নিয়ামত সবার জীবনে বর্ষিত হোক। ঈদ মুবারক!"
+  ];
+  let currentQuoteIndex = 0;
+  const quoteEl = document.getElementById('quoteText');
+
+  window.nextQuote = () => { currentQuoteIndex = (currentQuoteIndex + 1) % quotes.length; updateQuote(); };
+  window.prevQuote = () => { currentQuoteIndex = (currentQuoteIndex - 1 + quotes.length) % quotes.length; updateQuote(); };
+  function updateQuote() {
+    quoteEl.classList.add('hidden');
+    setTimeout(() => { quoteEl.innerText = quotes[currentQuoteIndex]; quoteEl.classList.remove('hidden'); }, 400);
+  }
+
+  // Interactive Gift Box (Party Popper Trigger)
+  window.openGift = () => {
+    const box = document.getElementById('giftBox');
+    const msg = document.getElementById('secretMsg');
+    const guide = document.getElementById('tapGuide');
+    
+    if(box.classList.contains('opened')) return;
+
+    guide.style.opacity = '0';
+    box.classList.add('opened');
+    
+    // Launch Party Popper Sitewide!
+    for(let i=0; i<150; i++) {
+       confettis.push(new Confetti(width/2, height/2 + 100));
+    }
+
+    setTimeout(() => {
+      msg.classList.add('visible');
+      setTimeout(() => msg.classList.add('animate-in'), 50);
+    }, 300);
+  };
+
+  // Robust Sharing Features
+  function showToast() {
+    const toast = document.getElementById('toast');
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2500);
+  }
+
+  window.copyLink = () => {
+    const url = window.location.href;
+    // Modern approach
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(url).then(() => showToast()).catch(err => fallbackCopy(url));
+    } else {
+      fallbackCopy(url);
+    }
+  };
+
+  function fallbackCopy(text) {
+    let textArea = document.createElement("textarea");
+    textArea.value = text;
+    textArea.style.position = "fixed";
+    textArea.style.top = "-999999px";
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    try {
+      document.execCommand('copy');
+      showToast();
+    } catch (err) {
+      console.error('Fallback copy failed', err);
+    }
+    textArea.remove();
+  }
+
+  window.shareWhatsApp = () => {
+    const text = encodeURIComponent("ঈদ মুবারক 🌙 আমার পক্ষে বিশেষ এক ব্যাক্তির বার্তা: " + window.location.href);
+    window.open(`https://wa.me/?text=${text}`, '_blank');
+  };
+
+</script>
+</body>
+</html>
